@@ -3,17 +3,24 @@
 
 #include <vector>
 #include <string>
+#include <Windows.h>
 
-class Snake {
+class Snake
+{
 private:
-    std::vector<std::string> corpo;
+    COORD pos;
     int tamanho;
+    int velocidade;
+    char direcao;
 
 public:
     Snake();
-    void mover();
-    void comer();
-    void exibir();
+    Snake(COORD pos, int velocidade);
+    void mudarDirecao(char direcao);
+    void moverCobra();
+    COORD getPos();
+    bool comer(COORD posicaoComida);
+    void crescer();
 };
 
 #endif
