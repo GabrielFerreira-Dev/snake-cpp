@@ -2,6 +2,7 @@
 #define FOOD_H
 #include <Windows.h>
 #include <cstdlib>
+#include <ctime>
 
 
 class Food {

@@ -1,15 +1,20 @@
-#include <iostream>
 #include <conio.h>
+#include <iostream>
 #include "snake.h"
 #include "food.h"
-#include <ctime>
+#include "common.h"
 
 using namespace std;
 int largura = 75, altura = 25, pos_x_obstaculo, pos_y_obstaculo;
-char dificuldade;
+char dificuldade = 'f';
 
 Snake snake({static_cast<SHORT>(largura / 2 - 20), static_cast<SHORT>(altura / 2)}, 1);
 Food comida;
+
+void goToxy(short x, short y) {
+    COORD coords {x, y};
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coords);
+}
 
 void alterarDificuldade()
 {
@@ -46,57 +51,83 @@ void alterarDificuldade()
     }
 }
 
-void criarCampo()
-{
-    if (dificuldade != 'f' && dificuldade != 'd')
-    {
-        dificuldade = 'f';
-        largura = 75;
-        altura = 25;
+void renderCampo(){
+    system("cls");
+    for(int x = 0; x < largura; x += 2){
+        Common::goToxy(x, 0);
+        cout << '#';
+
+        Common::goToxy(x, altura);
+        cout << '#';
     }
 
-    COORD snakePos = snake.getPos();
+    for(int y = 0; y < altura; ++y){
+        Common::goToxy(0, y);
+        cout << '#';
+
+        Common::goToxy(largura, y);
+        cout << '#';
+    }
+}
+
+void renderFood(){
     COORD comidaPos = comida.getPos();
 
-    for (int i = 0; i < altura; i++)
-    {
-        cout << "#";
-        for (int j = 0; j < largura - 2; j++)
-        {
-            if (i == 0 || i == altura - 1)
-                cout << "#";
-            else if (i == snakePos.Y && j == snakePos.X)
-                cout << 'O';
-            else if (i == comidaPos.Y && j == comidaPos.X)
-                cout << '+';
-            else
-                cout << ' ';
+    Common::goToxy(comidaPos.X, comidaPos.Y);
+    cout << '+';
+    
+}
+
+void renderSnake(){
+    vector<COORD> snakePos = snake.getPos();
+
+    Common::goToxy(snakePos.at(0).X, snakePos.at(0).Y);
+    cout << '0';
+
+    if(snake.getTamanho() > 1){
+        COORD pos;
+        for (int i = 1; i < snake.getTamanho(); ++i){
+            pos = snakePos.at(i);
+            Common::goToxy(pos.X, pos.Y);
+            cout << '~';
         }
-        cout << "#\n";
     }
+}
+
+bool detectCollision(){
+    vector <COORD> snakePos = snake.getPos();
+
+    if(snakePos.at(0).X == 0 || snakePos.at(0).X == largura) return true;
+    if(snakePos.at(0).Y == 0 || snakePos.at(0).Y == altura) return true;
+
+    return false;
 }
 
 int main()
 {
     int opcao;
-    std::cout << "Bem vindo ao Snake em C++. Escolha sua dificuldade para iniciar e bom jogo!" << std::endl;
+    cout << "Bem vindo ao Snake em C++. Escolha sua dificuldade para iniciar e bom jogo!" << endl;
 
     do
     {
-        std::cout << "Menu:" << std::endl;
-        std::cout << "1. Iniciar novo jogo" << std::endl;
-        std::cout << "2. Alterar dificuldade" << std::endl;
-        std::cout << "3. Sair do jogo" << std::endl;
-        std::cout << "Escolha uma opcao: ";
-        std::cin >> opcao;
+        cout << "Menu:" << endl;
+        cout << "1. Iniciar novo jogo" << endl;
+        cout << "2. Alterar dificuldade" << endl;
+        cout << "3. Sair do jogo" << endl;
+        cout << "Escolha uma opcao: ";
+        cin >> opcao;
 
         switch (opcao)
         {
         case 1:
-            srand(time(NULL));
+            
+            renderCampo();
+            renderFood();
             while (true)
             {
-                criarCampo();
+                renderSnake();
+                Sleep(100); // Função para teste! Alterar depois!
+                
                 if (kbhit())
                 {
                     switch (getch())
@@ -115,14 +146,23 @@ int main()
                         break;
                     }
                 }
+                
                 snake.moverCobra();
+                if(detectCollision()){
+                    system("cls");
+                    cout << "GAME OVER!";
+                    while(getchar() != '\n');
+                    exit(1);
+                }
                 if (snake.comer(comida.getPos()))
                 {
                     comida.gerarComida();
                     snake.crescer();
+                    renderFood();
                 }
-
+                
                 SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), {0, 0});
+                
             }
 
             break;
@@ -133,11 +173,11 @@ int main()
 
             break;
         default:
-            std::cout << "Opcao invalida. Tente novamente." << std::endl;
+            cout << "Opcao invalida. Tente novamente." << endl;
             break;
         }
 
-        std::cout << std::endl;
+        cout << endl;
     } while (opcao != 3);
 
     return 0;

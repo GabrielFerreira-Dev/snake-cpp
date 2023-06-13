@@ -8,7 +8,7 @@
 class Snake
 {
 private:
-    COORD pos;
+    std::vector<COORD> pos;
     int tamanho;
     int velocidade;
     char direcao;
@@ -17,8 +17,10 @@ public:
     Snake();
     Snake(COORD pos, int velocidade);
     void mudarDirecao(char direcao);
+    void unrenderSnake();
     void moverCobra();
-    COORD getPos();
+    std::vector<COORD> getPos();
+    int getTamanho();
     bool comer(COORD posicaoComida);
     void crescer();
 };

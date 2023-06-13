@@ -5,8 +5,9 @@ Food::Food() {
 }
 
 void Food::gerarComida() {
-    pos.X = rand() % 75 + 1;
-    pos.Y = rand() % 25 + 1;
+    srand(time(nullptr));
+    pos.X = rand() % 75;
+    pos.Y = rand() % 25;
 }
 
 COORD Food::getPos() {
