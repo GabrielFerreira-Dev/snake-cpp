@@ -11,11 +11,6 @@ char dificuldade = 'f';
 Snake snake({static_cast<SHORT>(largura / 2 - 20), static_cast<SHORT>(altura / 2)}, 1);
 Food comida;
 
-void goToxy(short x, short y) {
-    COORD coords {x, y};
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coords);
-}
-
 void alterarDificuldade()
 {
     bool manter = true;
