@@ -17,10 +17,12 @@ public:
     Snake();
     Snake(COORD pos, int velocidade);
     void mudarDirecao(char direcao);
+    void criarCobra(int);
     void unrenderSnake();
     void moverCobra();
     std::vector<COORD> getPos();
     int getTamanho();
+    int getVelocidade();
     bool comer(COORD posicaoComida);
     void crescer();
 };

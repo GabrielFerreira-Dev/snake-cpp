@@ -6,9 +6,12 @@
 
 using namespace std;
 int largura = 75, altura = 25, pos_x_obstaculo, pos_y_obstaculo;
-char dificuldade = 'f';
+char dificuldade;
+int velocidade, pontos;
 
-Snake snake({static_cast<SHORT>(largura / 2 - 20), static_cast<SHORT>(altura / 2)}, 1);
+// Snake snake({static_cast<SHORT>(largura / 2 - 20), static_cast<SHORT>(altura / 2)}, 1);
+
+Snake snake;
 Food comida;
 
 void alterarDificuldade()
@@ -27,6 +30,7 @@ void alterarDificuldade()
             altura = 25;
             system("cls");
             manter = false;
+            velocidade = 0;
         }
         else if (dif == '2')
         {
@@ -37,6 +41,7 @@ void alterarDificuldade()
             pos_y_obstaculo = altura / 2;
             system("cls");
             manter = false;
+            velocidade = 70;
         }
         else
         {
@@ -44,24 +49,29 @@ void alterarDificuldade()
             cout << "Valor inválido. Digite novamente.\n";
         }
     }
+    snake.criarCobra(velocidade);
 }
 
 void renderCampo(){
     system("cls");
-    for(int x = 0; x < largura; x += 2){
+    for(int x = 0; x <= largura; x++){
         Common::goToxy(x, 0);
-        cout << '#';
+        cout << (char) 223;
+        //cout << '#';
 
         Common::goToxy(x, altura);
-        cout << '#';
+        cout << (char) 220;
+        //cout << '#';
     }
 
-    for(int y = 0; y < altura; ++y){
+    for(int y = 0; y <= altura; ++y){
         Common::goToxy(0, y);
-        cout << '#';
+        cout << (char) 219;
+        //cout << '#';
 
         Common::goToxy(largura, y);
-        cout << '#';
+        cout << (char) 219;
+        //cout << '#';
     }
 }
 
@@ -77,16 +87,22 @@ void renderSnake(){
     vector<COORD> snakePos = snake.getPos();
 
     Common::goToxy(snakePos.at(0).X, snakePos.at(0).Y);
-    cout << '0';
+    cout << 'O';
 
     if(snake.getTamanho() > 1){
         COORD pos;
         for (int i = 1; i < snake.getTamanho(); ++i){
             pos = snakePos.at(i);
             Common::goToxy(pos.X, pos.Y);
-            cout << '~';
+            cout << '#';
         }
     }
+}
+
+void renderPontuacao(){
+    Common::goToxy(2, altura + 2);
+    cout << "Pontos: ";
+    cout << pontos;
 }
 
 bool detectCollision(){
@@ -94,8 +110,66 @@ bool detectCollision(){
 
     if(snakePos.at(0).X == 0 || snakePos.at(0).X == largura) return true;
     if(snakePos.at(0).Y == 0 || snakePos.at(0).Y == altura) return true;
+    for(int i = 1; i < snakePos.size(); ++i){
+        if(snakePos.at(0).X == snakePos.at(i).X && snakePos.at(0).Y == snakePos.at(i).Y) return true;
+    }
 
     return false;
+}
+
+void playGame(){
+    alterarDificuldade();
+    renderCampo();
+    while (!detectCollision())
+    {
+        renderPontuacao();
+        renderFood();
+        renderSnake();
+        
+        
+        if (kbhit())
+        {
+            switch (tolower(getch()))
+            {
+            case 'w':
+                snake.mudarDirecao('c');
+                break;
+            case 'a':
+                snake.mudarDirecao('e');
+                break;
+            case 's':
+                snake.mudarDirecao('b');
+                break;
+            case 'd':
+                snake.mudarDirecao('d');
+                break;
+            }
+        }
+        
+        if (snake.comer(comida.getPos()))
+        {
+            comida.gerarComida();
+            snake.crescer();
+
+            if(dificuldade == 'f'){
+                pontos += 5;
+            } else{
+                pontos += 10;
+            }
+
+        }
+
+        Sleep(150 - snake.getVelocidade()); // Função para teste! Alterar depois!
+        snake.moverCobra();
+             
+    }
+    system("cls");
+    cout << "GAME OVER!";
+    while(getchar() != '\n');
+}
+
+void showHighscores(){
+
 }
 
 int main()
@@ -107,7 +181,8 @@ int main()
     {
         cout << "Menu:" << endl;
         cout << "1. Iniciar novo jogo" << endl;
-        cout << "2. Alterar dificuldade" << endl;
+        // cout << "2. Alterar dificuldade" << endl;
+        cout << "2. HighScores" << endl;
         cout << "3. Sair do jogo" << endl;
         cout << "Escolha uma opcao: ";
         cin >> opcao;
@@ -115,57 +190,12 @@ int main()
         switch (opcao)
         {
         case 1:
-            
-            renderCampo();
-            renderFood();
-            while (true)
-            {
-                renderSnake();
-                Sleep(100); // Função para teste! Alterar depois!
-                
-                if (kbhit())
-                {
-                    switch (getch())
-                    {
-                    case 'w':
-                        snake.mudarDirecao('c');
-                        break;
-                    case 'a':
-                        snake.mudarDirecao('e');
-                        break;
-                    case 's':
-                        snake.mudarDirecao('b');
-                        break;
-                    case 'd':
-                        snake.mudarDirecao('d');
-                        break;
-                    }
-                }
-                
-                snake.moverCobra();
-                if(detectCollision()){
-                    system("cls");
-                    cout << "GAME OVER!";
-                    while(getchar() != '\n');
-                    exit(1);
-                }
-                if (snake.comer(comida.getPos()))
-                {
-                    comida.gerarComida();
-                    snake.crescer();
-                    renderFood();
-                }
-                
-                SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), {0, 0});
-                
-            }
-
+            playGame();
             break;
         case 2:
-            alterarDificuldade();
+            showHighscores();
             break;
         case 3:
-
             break;
         default:
             cout << "Opcao invalida. Tente novamente." << endl;

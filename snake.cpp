@@ -11,6 +11,13 @@ Snake::Snake(COORD pos, int velocidade)
     direcao = 'd';
 }
 
+void Snake::criarCobra(int velocidade){
+    this->pos.push_back({12, 17});
+    this->velocidade = velocidade;
+    tamanho = 1;
+    direcao = 'd';
+}
+
 void Snake::mudarDirecao(char direcao)
 {
     if(this->direcao == 'c' && direcao == 'b') return;
@@ -21,10 +28,18 @@ void Snake::mudarDirecao(char direcao)
 }
 
 void Snake::unrenderSnake(){
+    Common::goToxy(pos.at(0).X, pos.at(0).Y);
+    std::cout << ' ';
+
+    Common::goToxy(pos.at(tamanho - 1).X, pos.at(tamanho - 1).Y);
+    std::cout << ' ';
+
+/*
     for(COORD pos : this->pos){
         Common::goToxy(pos.X, pos.Y);
         std::cout << ' ';
     }
+*/
 }
 
 void Snake::moverCobra()
@@ -58,6 +73,10 @@ std::vector<COORD> Snake::getPos() {
 
 int Snake::getTamanho(){
     return tamanho;
+}
+
+int Snake::getVelocidade(){
+    return velocidade;
 }
 
 bool Snake::comer(COORD posicaoComida) {
