@@ -7,7 +7,7 @@
 using namespace std;
 int largura = 75, altura = 25, pos_x_obstaculo, pos_y_obstaculo;
 char dificuldade;
-int velocidade, pontos;
+int velocidade;
 
 // Snake snake({static_cast<SHORT>(largura / 2 - 20), static_cast<SHORT>(altura / 2)}, 1);
 
@@ -99,7 +99,7 @@ void renderSnake(){
     }
 }
 
-void renderPontuacao(){
+void renderPontuacao(int pontos){
     Common::goToxy(2, altura + 2);
     cout << "Pontos: ";
     cout << pontos;
@@ -118,11 +118,12 @@ bool detectCollision(){
 }
 
 void playGame(){
+    int pontos = 0;
     alterarDificuldade();
     renderCampo();
     while (!detectCollision())
     {
-        renderPontuacao();
+        renderPontuacao(pontos);
         renderFood();
         renderSnake();
         
@@ -148,7 +149,7 @@ void playGame(){
         
         if (snake.comer(comida.getPos()))
         {
-            comida.gerarComida();
+            comida.gerarComida(largura);
             snake.crescer();
 
             if(dificuldade == 'f'){
@@ -165,7 +166,6 @@ void playGame(){
     }
     system("cls");
     cout << "GAME OVER!";
-    while(getchar() != '\n');
 }
 
 void showHighscores(){

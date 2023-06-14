@@ -11,7 +11,7 @@ class Food {
 
     public:
         Food();
-        void gerarComida();
+        void gerarComida(int);
         COORD getPos();
 };
 

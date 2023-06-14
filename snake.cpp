@@ -12,6 +12,7 @@ Snake::Snake(COORD pos, int velocidade)
 }
 
 void Snake::criarCobra(int velocidade){
+    this->pos.clear();
     this->pos.push_back({12, 17});
     this->velocidade = velocidade;
     tamanho = 1;
