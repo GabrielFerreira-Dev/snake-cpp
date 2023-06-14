@@ -47,21 +47,21 @@ void Snake::moverCobra()
 {
     unrenderSnake();
     for(int i = tamanho - 1; i > 0; --i){
-        pos.at(i) = pos.at(i - 1);
+        pos[i] = pos[i - 1];
     }
     switch (direcao)
     {
     case 'c':
-        pos.at(0).Y--;
+        pos[0].Y--;
         break;
     case 'b':
-        pos.at(0).Y++;
+        pos[0].Y++;
         break;
     case 'd':
-        pos.at(0).X++;
+        pos[0].X++;
         break;
     case 'e':
-        pos.at(0).X--;
+        pos[0].X--;
         break;
     default:
         break;
@@ -86,20 +86,20 @@ bool Snake::comer(COORD posicaoComida) {
 }
 
 void Snake::crescer() {   
-    pos.push_back(pos.at(tamanho - 1));
+    pos.push_back(pos[tamanho - 1]);
 
     switch(direcao){
         case 'c':
-            pos.at(tamanho).Y++;
+            pos[tamanho].Y++;
             break;
         case 'b':
-            pos.at(tamanho).Y--;
+            pos[tamanho].Y--;
             break;
         case 'e':
-            pos.at(tamanho).X++;
+            pos[tamanho].X++;
             break;
         case 'd':
-            pos.at(tamanho).X--;
+            pos[tamanho].X--;
             break;
     }
     tamanho++;
