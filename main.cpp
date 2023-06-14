@@ -56,11 +56,11 @@ void renderCampo(){
     system("cls");
     for(int x = 0; x <= largura; x++){
         Common::goToxy(x, 0);
-        cout << static_cast<CHAR>(223);
+        cout << static_cast<CHAR>(219);
         //cout << '#';
 
         Common::goToxy(x, altura);
-        cout << static_cast<CHAR>(220);
+        cout << static_cast<CHAR>(219);
         //cout << '#';
     }
 
