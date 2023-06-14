@@ -2,6 +2,7 @@
 #define FOOD_H
 #include <Windows.h>
 #include <cstdlib>
+#include <ctime>
 
 
 class Food {
@@ -10,7 +11,7 @@ class Food {
 
     public:
         Food();
-        void gerarComida();
+        void gerarComida(int);
         COORD getPos();
 };
 
