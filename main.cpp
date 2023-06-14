@@ -56,21 +56,21 @@ void renderCampo(){
     system("cls");
     for(int x = 0; x <= largura; x++){
         Common::goToxy(x, 0);
-        cout << (char) 223;
+        cout << static_cast<CHAR>(223);
         //cout << '#';
 
         Common::goToxy(x, altura);
-        cout << (char) 220;
+        cout << static_cast<CHAR>(220);
         //cout << '#';
     }
 
     for(int y = 0; y <= altura; ++y){
         Common::goToxy(0, y);
-        cout << (char) 219;
+        cout << static_cast<CHAR>(219);
         //cout << '#';
 
         Common::goToxy(largura, y);
-        cout << (char) 219;
+        cout << static_cast<CHAR>(219);
         //cout << '#';
     }
 }
@@ -85,17 +85,14 @@ void renderFood(){
 
 void renderSnake(){
     vector<COORD> snakePos = snake.getPos();
+    int snakeSize = snake.getTamanho();
 
-    Common::goToxy(snakePos.at(0).X, snakePos.at(0).Y);
+    Common::goToxy(snakePos[0].X, snakePos[0].Y);
     cout << 'O';
 
-    if(snake.getTamanho() > 1){
-        COORD pos;
-        for (int i = 1; i < snake.getTamanho(); ++i){
-            pos = snakePos.at(i);
-            Common::goToxy(pos.X, pos.Y);
-            cout << '#';
-        }
+    if(snakeSize > 1){
+        Common::goToxy(snakePos[1].X, snakePos[1].Y);
+        cout << '#';
     }
 }
 
@@ -121,6 +118,8 @@ void playGame(){
     int pontos = 0;
     alterarDificuldade();
     renderCampo();
+    Common::goToxy(22, altura + 2);
+    cout << "Devs: Gabriel Ferreira \\ Guilherme Henrique \\ Luan Pozzobon";
     while (!detectCollision())
     {
         renderPontuacao(pontos);
