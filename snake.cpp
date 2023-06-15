@@ -80,6 +80,10 @@ int Snake::getVelocidade(){
     return velocidade;
 }
 
+void Snake::setVelocidade(int vel){
+    velocidade += vel;
+}
+
 bool Snake::comer(COORD posicaoComida) {
     if(posicaoComida.X == pos.at(0).X && posicaoComida.Y == pos.at(0).Y) return true;
     else return false;

@@ -47,7 +47,9 @@
         "iomanip": "cpp",
         "xlocmon": "cpp",
         "xloctime": "cpp",
-        "random": "cpp"
+        "random": "cpp",
+        "algorithm": "cpp",
+        "fstream": "cpp"
     },
     "C_Cpp.errorSquiggles": "enabled"
 }

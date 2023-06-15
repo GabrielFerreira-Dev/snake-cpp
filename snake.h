@@ -23,6 +23,7 @@ public:
     std::vector<COORD> getPos();
     int getTamanho();
     int getVelocidade();
+    void setVelocidade(int velocidadeAdicional);
     bool comer(COORD posicaoComida);
     void crescer();
 };
