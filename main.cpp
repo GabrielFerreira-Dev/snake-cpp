@@ -17,12 +17,12 @@ void alterarDificuldade()
     bool manter = true;
     while (manter)
     {
+        char dif;
         cout << "Deseja jogar no:\n";
         cout << "1 - fácil\n";
         cout << "2 - difícil\n";
-        char dif = getchar();
-        char temp = dif;
-        if (temp == '1')
+        cin >> dif;
+        if (dif == '1')
         {
             dificuldade = 'f';
             largura = 75;
@@ -30,7 +30,7 @@ void alterarDificuldade()
             system("cls");
             manter = false;
         }
-        else if (temp == '2')
+        else if (dif == '2')
         {
             dificuldade = 'd';
             largura = 80;
@@ -56,7 +56,7 @@ string getNameJogador()
     system("cls");
     string nomeJogador;
 
-    cout << "Informe seu nick:";
+    cout << "Informe seu nick: ";
     cin >> nomeJogador;
     return nomeJogador;
 }
@@ -241,7 +241,7 @@ void playGame()
             }
         }
 
-        Sleep(150 - snake.getVelocidade()); // Função para teste! Alterar depois!
+        Sleep(150 - snake.getVelocidade());
         snake.moverCobra();
     }
     if (detectCollision() == true)
@@ -291,7 +291,6 @@ int main()
     {
         cout << "Menu:" << endl;
         cout << "1. Iniciar novo jogo" << endl;
-        // cout << "2. Alterar dificuldade" << endl;
         cout << "2. HighScores" << endl;
         cout << "3. Sair do jogo" << endl;
         cout << "Escolha uma opcao: ";
@@ -309,16 +308,18 @@ int main()
             showHighscores();
             break;
         case 3:
-            cout << "\nObrigado por jogar!\n";
-            Sleep(1);
             system("cls");
+            cout << "\nObrigado por jogar!\n";
+            Sleep(5);
+            opcao = 123;
             break;
         default:
+            system("cls");
             cout << "Opcao invalida. Tente novamente." << endl;
             break;
         }
         cout << endl;
-    } while (opcao != 3);
+    } while (opcao != 123);
 
     return 0;
 }

@@ -34,13 +34,6 @@ void Snake::unrenderSnake(){
 
     Common::goToxy(pos.at(tamanho - 1).X, pos.at(tamanho - 1).Y);
     std::cout << ' ';
-
-/*
-    for(COORD pos : this->pos){
-        Common::goToxy(pos.X, pos.Y);
-        std::cout << ' ';
-    }
-*/
 }
 
 void Snake::moverCobra()
