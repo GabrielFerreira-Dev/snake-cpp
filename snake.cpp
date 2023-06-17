@@ -3,10 +3,9 @@
 
 Snake::Snake() {}
 
-void Snake::criarCobra(int velocidade){
+void Snake::criarCobra(){
     this->pos.clear();
     this->pos.push_back({12, 17});
-    this->velocidade = velocidade;
     tamanho = 1;
     direcao = 'd';
 }
@@ -67,7 +66,7 @@ int Snake::getVelocidade(){
 }
 
 void Snake::setVelocidade(int vel){
-    velocidade += vel;
+    velocidade = vel;
 }
 
 bool Snake::comer(COORD posicaoComida) {

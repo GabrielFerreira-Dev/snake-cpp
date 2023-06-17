@@ -16,13 +16,13 @@ private:
 public:
     Snake();
     void mudarDirecao(char direcao);
-    void criarCobra(int);
+    void criarCobra();
     void unrenderSnake(bool);
     void moverCobra(bool);
     std::vector<COORD> getPos();
     int getTamanho();
     int getVelocidade();
-    void setVelocidade(int velocidadeAdicional);
+    void setVelocidade(int velocidade);
     bool comer(COORD posicaoComida);
     void crescer();
 };
