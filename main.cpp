@@ -6,8 +6,8 @@
 #include "common.h"
 
 using namespace std;
-int largura = 75, altura = 25, pos_x_obstaculo, pos_y_obstaculo;
-char dificuldade = 70;
+int largura, altura;
+char dificuldade;
 Snake snake;
 Food comida;
 
@@ -28,18 +28,16 @@ void alterarDificuldade()
             altura = 25;
             system("cls");
             manter = false;
-            snake.setVelocidade(10);
+            snake.setVelocidade(15);
         }
         else if (dif == '2')
         {
             dificuldade = 'd';
             largura = 80;
             altura = 25;
-            pos_x_obstaculo = largura / 2;
-            pos_y_obstaculo = altura / 2;
             system("cls");
             manter = false;
-            snake.setVelocidade(60);
+            snake.setVelocidade(55);
             
         }
         else
@@ -235,7 +233,7 @@ void playGame()
             crescer = true;
         }
 
-        Sleep(120 - snake.getVelocidade());
+        Sleep(100 - snake.getVelocidade());
         snake.moverCobra(crescer);
         crescer = false;
     }

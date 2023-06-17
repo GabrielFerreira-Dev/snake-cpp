@@ -75,7 +75,7 @@ bool Snake::comer(COORD posicaoComida) {
 }
 
 void Snake::crescer() {   
-    pos.push_back(pos[tamanho - 1]);
+    pos.push_back(pos[tamanho]);
 
     switch(direcao){
         case 'c':
