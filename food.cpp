@@ -1,9 +1,7 @@
 #include "food.h"
 #include <random>
 
-Food::Food() {
-    gerarComida(75);
-}
+Food::Food() {}
 
 void Food::gerarComida(int largura) {
 

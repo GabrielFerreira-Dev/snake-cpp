@@ -48,6 +48,7 @@ void alterarDificuldade()
         }
     }
     snake.criarCobra(velocidade);
+    comida.gerarComida(largura);
     system("cls");
 }
 
@@ -161,7 +162,7 @@ void renderSnake()
 
 void renderPontuacao(int pontos)
 {
-    Common::goToxy(2, altura + 2);
+    Common::goToxy(0, altura + 2);
     cout << "Pontos: ";
     cout << pontos;
 }
@@ -176,7 +177,7 @@ bool detectCollision()
         return true;
     for (int i = 1; i < snakePos.size(); ++i)
     {
-        if (snakePos.at(0).X == snakePos.at(i).X && snakePos.at(0).Y == snakePos.at(i).Y)
+        if (snakePos[0].X == snakePos[i].X && snakePos[0].Y == snakePos[i].Y)
             return true;
     }
 
@@ -185,11 +186,10 @@ bool detectCollision()
 
 void playGame()
 {
+    bool crescer = false;
     int pontos = 0;
     string nomeJogador = getNameJogador();
     alterarDificuldade();
-    renderCampo();
-    Common::goToxy(22, altura + 2);
     if (dificuldade == 'd')
     {
         snake.setVelocidade(50);
@@ -200,6 +200,8 @@ void playGame()
     }
     else
         snake.setVelocidade(30);
+    renderCampo();
+    Common::goToxy(22, altura + 2);
     cout << "Devs: Gabriel Ferreira \\ Guilherme Henrique \\ Luan Pozzobon";
     while (!detectCollision())
     {
@@ -239,10 +241,12 @@ void playGame()
             {
                 pontos += 10;
             }
+            crescer = true;
         }
 
         Sleep(150 - snake.getVelocidade());
-        snake.moverCobra();
+        snake.moverCobra(crescer);
+        crescer = false;
     }
     if (detectCollision() == true)
     {
