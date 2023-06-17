@@ -33,7 +33,7 @@ void alterarDificuldade()
         else if (dif == '2')
         {
             dificuldade = 'd';
-            largura = 80;
+            largura = 45;
             altura = 25;
             system("cls");
             manter = false;
