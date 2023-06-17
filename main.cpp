@@ -6,9 +6,8 @@
 #include "common.h"
 
 using namespace std;
-int largura = 75, altura = 25, pos_x_obstaculo, pos_y_obstaculo;
+int largura, altura;
 char dificuldade;
-int velocidade;
 Snake snake;
 Food comida;
 
@@ -29,17 +28,17 @@ void alterarDificuldade()
             altura = 25;
             system("cls");
             manter = false;
+            snake.setVelocidade(15);
         }
         else if (dif == '2')
         {
             dificuldade = 'd';
             largura = 80;
             altura = 25;
-            pos_x_obstaculo = largura / 2;
-            pos_y_obstaculo = altura / 2;
             system("cls");
             manter = false;
-            velocidade = 70;
+            snake.setVelocidade(55);
+            
         }
         else
         {
@@ -47,7 +46,8 @@ void alterarDificuldade()
             cout << "Valor inválido. Digite novamente.\n";
         }
     }
-    snake.criarCobra(velocidade);
+    snake.criarCobra();
+    comida.gerarComida(largura);
     system("cls");
 }
 
@@ -161,7 +161,7 @@ void renderSnake()
 
 void renderPontuacao(int pontos)
 {
-    Common::goToxy(2, altura + 2);
+    Common::goToxy(0, altura + 2);
     cout << "Pontos: ";
     cout << pontos;
 }
@@ -176,7 +176,7 @@ bool detectCollision()
         return true;
     for (int i = 1; i < snakePos.size(); ++i)
     {
-        if (snakePos.at(0).X == snakePos.at(i).X && snakePos.at(0).Y == snakePos.at(i).Y)
+        if (snakePos[0].X == snakePos[i].X && snakePos[0].Y == snakePos[i].Y)
             return true;
     }
 
@@ -185,21 +185,12 @@ bool detectCollision()
 
 void playGame()
 {
+    bool crescer = false;
     int pontos = 0;
     string nomeJogador = getNameJogador();
     alterarDificuldade();
     renderCampo();
     Common::goToxy(22, altura + 2);
-    if (dificuldade == 'd')
-    {
-        snake.setVelocidade(50);
-    }
-    else if (dificuldade == 'f')
-    {
-        snake.setVelocidade(30);
-    }
-    else
-        snake.setVelocidade(30);
     cout << "Devs: Gabriel Ferreira \\ Guilherme Henrique \\ Luan Pozzobon";
     while (!detectCollision())
     {
@@ -239,10 +230,12 @@ void playGame()
             {
                 pontos += 10;
             }
+            crescer = true;
         }
 
-        Sleep(150 - snake.getVelocidade());
-        snake.moverCobra();
+        Sleep(100 - snake.getVelocidade());
+        snake.moverCobra(crescer);
+        crescer = false;
     }
     if (detectCollision() == true)
     {
